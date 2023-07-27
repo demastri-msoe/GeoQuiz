@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import android.util.Log
+import androidx.activity.viewModels
 import com.msoe.bnrtextapps.geoquiz.databinding.ActivityMainBinding
 
 private const val TAG = "MainActivityLogEntries"
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
+    private val quizViewModel: QuizViewModel by viewModels()
 
     private val questionBank = listOf(
         Question(R.string.question_australia, true),
@@ -25,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate(Bundle?) called")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        Log.d(TAG, "Got a QuizViewModel: $quizViewModel")
 
         binding.trueButton.setOnClickListener { view: View ->
             checkAnswer(true)
