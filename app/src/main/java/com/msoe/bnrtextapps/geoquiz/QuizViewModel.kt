@@ -39,4 +39,6 @@ class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         Log.d(TAG, "Updating question text")
         currentIndex = (currentIndex + 1) % questionBank.size
     }
+    val nbrQuestions: Int
+        get() = questionBank.size
 }
