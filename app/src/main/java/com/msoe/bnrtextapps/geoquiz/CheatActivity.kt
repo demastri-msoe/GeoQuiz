@@ -3,6 +3,7 @@ package com.msoe.bnrtextapps.geoquiz
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.msoe.bnrtextapps.geoquiz.databinding.ActivityCheatBinding
@@ -30,6 +31,7 @@ class CheatActivity : AppCompatActivity() {
             binding.answerTextView.setText(answerText)
             setAnswerShownResult(true)
         }
+        binding.apiLevelView.text = "API Level "+ Build.VERSION.SDK_INT
     }
 
     private fun setAnswerShownResult(isAnswerShown: Boolean) {

@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         }
         updateQuestion()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && quizViewModel.exceededCheatLimit) {
             blurCheatButton()
         }
     }
@@ -69,6 +69,8 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume() called")
+        binding.cheatTokenView.text = "Nbr of cheat tokens left: "+ quizViewModel.cheatsRemaining
+        binding.cheatButton.isEnabled = !quizViewModel.exceededCheatLimit
     }
 
     override fun onPause() {
