@@ -24,20 +24,22 @@ class MainActivity : AppCompatActivity() {
        Log.d(TAG, "Got a QuizViewModel: $quizViewModel")
 
        binding.trueButton.setOnClickListener { view: View ->
-            checkAnswer(true)
+           checkAnswer(true)
        }
        binding.falseButton.setOnClickListener { view: View ->
-            checkAnswer(false)
+           checkAnswer(false)
        }
        binding.nextButton.setOnClickListener {
-            quizViewModel.moveToNext()
-            updateQuestion()
+           quizViewModel.moveToNext()
+           updateQuestion()
        }
        binding.cheatButton.setOnClickListener {
            // Start CheatActivity
-           val intent = Intent(this, CheatActivity::class.java)
+           val answerIsTrue = quizViewModel.currentQuestionAnswer
+           val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
            startActivity(intent)
        }
+       updateQuestion()
     }
     override fun onStart() {
         super.onStart()
