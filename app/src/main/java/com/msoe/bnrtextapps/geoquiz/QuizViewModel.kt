@@ -5,8 +5,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import java.lang.Exception
 private const val TAG = "QuizViewModel"
+const val CURRENT_INDEX_KEY = "CURRENT_INDEX_KEY"
 
-class QuizViewModel : ViewModel() {
+class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
     init {
         Log.d(TAG, "ViewModel instance created")
@@ -25,8 +26,9 @@ class QuizViewModel : ViewModel() {
         Question(R.string.question_americas, true),
         Question(R.string.question_asia, true))
 
-    private var currentIndex: Int = 0
-
+    private var currentIndex: Int
+        get() = savedStateHandle.get(CURRENT_INDEX_KEY) ?: 0
+        set(value) = savedStateHandle.set(CURRENT_INDEX_KEY, value)
     val currentQuestionAnswer: Boolean
         get() = questionBank[currentIndex].answer
 
