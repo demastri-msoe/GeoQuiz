@@ -30,6 +30,9 @@ class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
     private var currentIndex: Int
         get() = savedStateHandle.get(CURRENT_INDEX_KEY) ?: 0
         set(value) = savedStateHandle.set(CURRENT_INDEX_KEY, value)
+
+    val hasCheated = BooleanArray(questionBank.size) { false }
+
     val currentQuestionAnswer: Boolean
         get() = questionBank[currentIndex].answer
 
@@ -37,8 +40,10 @@ class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         get() = questionBank[currentIndex].textResId
 
     var isCheater: Boolean
-        get() = savedStateHandle.get(IS_CHEATER_KEY) ?: false
-        set(value) = savedStateHandle.set(IS_CHEATER_KEY, value)
+        get() = hasCheated[currentIndex]
+        set(value) {
+            val also: Boolean = value.also { hasCheated[currentIndex] = it }
+        }
 
     fun moveToNext() {
         Log.d(TAG, "Updating question text")
