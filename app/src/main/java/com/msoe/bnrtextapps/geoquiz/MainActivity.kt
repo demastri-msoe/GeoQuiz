@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         Question(R.string.question_asia, true))
 
     private var currentIndex = 0
+
+    val answers = IntArray(questionBank.size) { -1 }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate(Bundle?) called")
@@ -66,17 +68,43 @@ class MainActivity : AppCompatActivity() {
     private fun updateQuestion() {
         val questionTextResId = questionBank[currentIndex].textResId
         binding.questionTextView.setText(questionTextResId)
+        binding.trueButton.isEnabled = (answers[currentIndex] == -1)
+        binding.falseButton.isEnabled = (answers[currentIndex] == -1)
+
     }
     private fun checkAnswer(userAnswer: Boolean) {
         val correctAnswer = questionBank[currentIndex].answer
 
         val messageResId = if (userAnswer == correctAnswer) {
+            answers[currentIndex] = 1
             R.string.correct_toast
         } else {
+            answers[currentIndex] = 0
             R.string.incorrect_toast
         }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
             .show()
+
+        binding.trueButton.isEnabled = false
+        binding.falseButton.isEnabled = false
+
+        if( allAnswered() )
+            showPctMessage()
     }
+    fun allAnswered(): Boolean {
+        return answers.indexOf(-1) == -1
+    }
+
+    fun showPctMessage() {
+        val pct = answers.sum()*100.0 / questionBank.size
+        val outMsg = "You answered $pct% of questions correctly"
+
+        Toast.makeText(
+            this,
+            outMsg,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
 }
